@@ -6,52 +6,44 @@ from bs4 import BeautifulSoup
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-@app.route('/anime_episodes3', methods=['GET'])
-def anime_episodes():
+@app.route('/anime_episodes1', methods=['GET'])
+def get_anime_episodes():
     anime = request.args.get('anime')
-    if not anime:
-        return jsonify({'message': 'Anime name is missing.'}), 400
+    if anime:
+        url = f'https://xsaniime.com/anime/{anime}/'
+        response = requests.get(url)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            episodes_div = soup.find('div', id='episodes')
+            anime_data = []
 
-    url = f'https://xsaniime.com/anime/{anime}/'
-    response = requests.get(url)
+            if episodes_div:
+                episodes_list = episodes_div.find_all('li')
 
-    if response.status_code == 200:
-        # Parse the HTML content
-        soup = BeautifulSoup(response.text, 'html.parser')
+                for episode_li in episodes_list:
+                    episode_url = episode_li.a['href']
+                    episode_name = episode_li.a['title']
 
-        # Find the div element with id "episodes"
-        episodes_div = soup.find('div', id='episodes')
-        anime_data = []
+                    episode_response = requests.get(episode_url)
+                    if episode_response.status_code == 200:
+                        episode_soup = BeautifulSoup(episode_response.text, 'html.parser')
+                        data_embed_links = episode_soup.find_all(attrs={"data-embed": True})
+                        data_embed = [link['data-embed'] for link in data_embed_links]
+                    else:
+                        data_embed = []
 
-        if episodes_div:
-            # Find all the li elements within the episodes_div
-            episodes_list = episodes_div.find_all('li')
+                    anime_data.append({
+                        'title': episode_name,
+                        'urls': data_embed,
+                    })
 
-            for episode_li in episodes_list:
-                # Extract the URL and episode name from the a element
-                episode_url = episode_li.a['href']
-                episode_name = episode_li.a['title']
-
-                # Scrape the episode URL and find all data-embed attributes
-                episode_response = requests.get(episode_url)
-                if episode_response.status_code == 200:
-                    episode_soup = BeautifulSoup(episode_response.text, 'html.parser')
-                    data_embed_links = episode_soup.find_all(attrs={"data-embed": True})
-                    data_embed = [link['data-embed'] for link in data_embed_links]
-                else:
-                    data_embed = []
-
-                # Append the episode data to anime_data
-                anime_data.append({
-                    'title': episode_name,
-                    'urls': data_embed,
-                })
-
-            return jsonify(anime_data)
+                return jsonify(anime_data)
+            else:
+                return jsonify({'error': 'No episodes found.'}), 404
         else:
-            return jsonify({'message': 'No episodes found.'}), 404
+            return jsonify({'error': 'Failed to fetch the webpage.'}), 500
     else:
-        return jsonify({'message': 'Failed to fetch the webpage.'}), 500
+        return jsonify({'error': 'Anime name parameter missing.'}), 400
 
 @app.route('/anime_data', methods=['GET'])
 def get_anime_data():
