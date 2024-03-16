@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LizAnime │ Search</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="data:image/x-icon;base64,AAABAAEAEBAAAAEACABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAADX3+sAGg8RAEk1MADp19MAW01KAKKJdAAoI0MAzdHLAM7VzgCLgnsA1trUAJiYqgDi09EAGRAMANji7ADL08kAbWNoAOvc2gC7vrgAu7jBAIN4ggCOeWoA0dXPAKaMfgBoUkgAkpauANTa1QCAamIAl4JzAJmCcwDa3tgA5dXPAC0iHgDl1tIAHx1OAJ2GdgA9NqkAMSMhAD84RADo2NgAi3RlAKGHeQBQc5AA2uPwAEQ/oACNjaYAzdTNAKKOhQDJuLAAs6afAJiQnQB8gZUAMTU8ANXZ0wB/a10A19nTACgdGQDf0tAAlYFxANbd1gCEgpgAfmxpAJiasgCxuLEAloOAAC0iHwDX4esA59fWAJ6GdwCJjKQAMiYiANrk6wBCO6cAoYp6ACkhSQDax8IAo4p6AM3UzgDQ1M4AdWdkAHuAkwDR2NEAemZhAJeWpwDj0c4AmZitACgiIABBUWMAKyEdACwhHQCbm60AQjQxAC4iIADm19cAtrK7AObZ1ADq1tQAmoeEAC0hOADL08wAzNPMANvl7wDayMYAztTPAM7WzACljXsA2c3MAI18dgCuq6cAhH+IALvAygDU2NIAJxwYAODQzAB8a2gAJx4eAINrXwDV4OoAxs7HANPh7QDW4OoAmYiIAKCJeQA/VoUANSYkAJ+NfACFeXcA3OXwANzIvgCmjXwAJBgWACojWgB9Z10AlH9uAOHPygCWl6wA2NzWACokHwAuIR8AmZ+yAC4lIgCdhnoA6NnWAJuIgADa5O4AXU1QACkgSQCkjHoAj5KnAJB7bAB9f5MA09fRAHtqZwCXlacARjppAJeWqgCYl60AmZetAJiBdQA6NaIA0eHvAM/BxgAvJCAAoId1AJ2KfgC4vLgA2uTvAM3SzACMkaUA0NbPANHWzwAlGRIAjn1zAJN7bQCokH4AJBsYAKuxswCVmasAKB8bAJuargCZgnkAnINzAObU0gAtJCEAPDijAJ6GcwCbh38AjIudAKCHdgBAN6kAcWBdAMrRygDZ4+0A2uHwAEs3NQDb5PAAsJ6fAIx3awCljHwA2srHAKaNfwDS1tAApZB/AJN6awDU1tAAhoSAANnVzQDh0NAAmpWpAJiWrACYg3QA5tLNAJGFgwDU3ugALyIcAOXX0wCenKwALiMfABgRDgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN281MBUeiM00hDlmmp97KhaXNYaVzAqwQHQ2xEuDJAGXUZdx0hw7bGG7RQxUrbgiqqnJYB2FGp55Lahd188svacPByEcAHV4QjOU0I4fYki/aE4DOnduwQ4ORxmho9OSZGcIQw5QDsDADsMOEY22Si5OTV7AwMDAwMDVE1+AugZjao9/kGWmKz6H0bMnL0yZdqRSoBCLnJ1a2AubxyNJMqV9tFUbyBSW1BgmsYHGxjESRCjOBLUFfm1TPGt6k2nKF668rJFbWIpZINZBVsu5KQnFmNnZ2dnZ2dnZ2SAgc1dGvnLaDbKioqKiiaLZXK+rP0aiJT1Pgoy3fALCOHBwcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" rel="icon" type="image/x-icon">
+
+
+<style>
+    /* Reset default styles */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        background-color: #282b30; /* Dark background */
+        color: #fff; /* Light text color */
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .input-container {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    .anime-input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px 0 0 5px;
+        font-size: 16px;
+        background-color: #fff;
+        color: #333;
+    }
+
+    .search-btn {
+        padding: 10px 15px;
+        border: 1px solid #ffbf00;
+        border-radius: 0 5px 5px 0;
+        background-color: #ffbf00;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .search-btn:hover {
+        background-color: #ffbf00; /* Darker shade on hover */
+    }
+
+    .episode-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .episode-item {
+        margin-bottom: 10px;
+    }
+
+    .episode-title {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #fff; /* White text color */
+        cursor: pointer;
+    }
+
+    .episode-icon {
+        margin-right: 10px;
+    }
+
+    .episode-links {
+        display: none;
+        margin-left: 20px;
+    }
+
+    .server-link {
+        display: block;
+        margin-bottom: 5px;
+        color: #fff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .server-link:hover {
+        color: #ffbf00; /* Main blue color on hover */
+    }
+    .copy{
+        text-align: center;
+    }
+    strong{
+        color: #ffbf00;
+    }
+</style>
+</head>
+<body>
+    <br>
+    <br>
+    <br>
+    <p class="copy">Made by Untitled Master.</p>
+    <br>
+    <br>
+    <br>
+    <h1 class="copy">Get the links <strong>Directly</strong></h1>
+    <br>
+    <br>
+<div class="container">
+    <div class="input-container">
+        <input type="text" id="animeInput" class="anime-input" placeholder="Enter anime name">
+        <button onclick="fetchEpisodes()" class="search-btn"><i class="fas fa-search"></i></button>
+    </div>
+    <ul id="episodeList" class="episode-list"></ul>
+</div>
+<script>
+    function fetchEpisodes() {
+        const animeName = document.getElementById('animeInput').value.trim();
+        if (!animeName) {
+            alert('Please enter an anime name.');
+            return;
+        }
+
+        const apiUrl = `https://lizanime-api.onrender.com/anime_episodes1?anime=${encodeURIComponent(animeName)}`;
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayEpisodesList(data);
+            })
+            .catch(error => {
+                console.error('There was a problem fetching the episodes:', error);
+                alert('There was a problem fetching the episodes. Please try again later.');
+            });
+    }
+
+    function displayEpisodesList(episodes) {
+        const episodeList = document.getElementById('episodeList');
+        episodeList.innerHTML = '';
+
+        episodes.forEach((episode, index) => {
+            const episodeItem = document.createElement('li');
+            episodeItem.classList.add('episode-item');
+
+            const episodeTitle = document.createElement('div');
+            episodeTitle.classList.add('episode-title');
+            episodeTitle.innerHTML = `<i class="fas fa-play-circle episode-icon"></i>Episode ${index + 1}: ${episode.title}`;
+            episodeTitle.addEventListener('click', () => toggleServers(episodeItem));
+            episodeItem.appendChild(episodeTitle);
+
+            const episodeLinks = document.createElement('div');
+            episodeLinks.classList.add('episode-links');
+
+            episode.urls.forEach((url, serverIndex) => {
+                const serverLink = document.createElement('a');
+                serverLink.href = url.trim();
+                serverLink.target = '_blank';
+                serverLink.classList.add('server-link');
+                serverLink.textContent = `Server ${serverIndex + 1}`;
+                episodeLinks.appendChild(serverLink);
+            });
+
+            episodeItem.appendChild(episodeLinks);
+            episodeList.appendChild(episodeItem);
+        });
+    }
+
+    function toggleServers(episodeItem) {
+        const episodeLinks = episodeItem.querySelector('.episode-links');
+        episodeLinks.style.display = episodeLinks.style.display === 'block' ? 'none' : 'block';
+    }
+</script>
+</body>
+</html>
