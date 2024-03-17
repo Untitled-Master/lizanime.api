@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     loadingContainer.style.display = 'block'; // Show loading container
 
     try {
-        const response = await fetch('https://lizanime-api.onrender.com/anime_data');
+        const response = await fetch('https://lizanime-api.onrender.com/anime_datapro');
         const data = await response.json();
 
         data.forEach(episode => {
