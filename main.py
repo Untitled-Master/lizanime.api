@@ -7,6 +7,98 @@ import psycopg2
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
+# Database URL provided by Render
+db_url = "postgres://untitledmaster:TRpOF79DgGJfadr9MxV0RzLCtQtPIm59@dpg-cnrie1v109ks73fgq4gg-a.oregon-postgres.render.com/lizanime"
+
+
+def create_table():
+    try:
+        # Establish a connection to the PostgreSQL database using the database URL
+        conn = psycopg2.connect(db_url)
+
+        # Create a cursor object to execute SQL commands
+        cursor = conn.cursor()
+
+        # Example SQL command: Create a table named 'favorite_animes' if it doesn't exist
+        cursor.execute('''CREATE TABLE IF NOT EXISTS favorite_animes
+                        (id SERIAL PRIMARY KEY,
+                        name VARCHAR(255) NOT NULL,
+                        rating INTEGER NOT NULL)''')
+
+        # Commit the changes to the database
+        conn.commit()
+
+        # Close the cursor and connection
+        cursor.close()
+        conn.close()
+
+        print("Table 'favorite_animes' created successfully.")
+
+    except psycopg2.Error as e:
+        print("Error creating table:", e)
+
+@app.route('/add_anime', methods=['POST'])
+def add_favorite_anime():
+    try:
+        # Get JSON data from the request
+        data = request.json
+
+        # Extract anime name and rating from the JSON data
+        name = data.get('name')
+        rating = data.get('rating')
+
+        # Check if name and rating are provided
+        if not name or not rating:
+            return jsonify({'error': 'Name and rating are required.'}), 400
+
+        # Establish a connection to the PostgreSQL database using the database URL
+        conn = psycopg2.connect(db_url)
+
+        # Create a cursor object to execute SQL commands
+        cursor = conn.cursor()
+
+        # Example SQL command: Insert data into the 'favorite_animes' table
+        cursor.execute("INSERT INTO favorite_animes (name, rating) VALUES (%s, %s)", (name, rating))
+
+        # Commit the changes to the database
+        conn.commit()
+
+        # Close the cursor and connection
+        cursor.close()
+        conn.close()
+
+        return jsonify({'message': f"Saved '{name}' as a favorite anime with rating {rating}."}), 201
+
+    except psycopg2.Error as e:
+        return jsonify({'error': 'Error connecting to the database.'}), 500
+
+@app.route('/get_animes', methods=['GET'])
+def get_favorite_animes():
+    try:
+        # Establish a connection to the PostgreSQL database using the database URL
+        conn = psycopg2.connect(db_url)
+
+        # Create a cursor object to execute SQL commands
+        cursor = conn.cursor()
+
+        # Example SQL query: Select all data from the 'favorite_animes' table
+        cursor.execute("SELECT * FROM favorite_animes")
+
+        # Fetch all rows from the result set
+        rows = cursor.fetchall()
+
+        # Close the cursor and connection
+        cursor.close()
+        conn.close()
+
+        # Convert the rows to a list of dictionaries
+        animes = [{'id': row[0], 'name': row[1], 'rating': row[2]} for row in rows]
+
+        return jsonify(animes)
+
+    except psycopg2.Error as e:
+        return jsonify({'error': 'Error connecting to the database.'}), 500
+
 @app.route('/anime_episodes1', methods=['GET'])
 def get_anime_episodes():
     anime = request.args.get('anime')
@@ -136,4 +228,5 @@ def get_anime_datapro():
 
 
 if __name__ == '__main__':
+    create_table()  # Create the 'favorite_animes' table if it doesn't exist
     app.run(host='0.0.0.0', port=5000, debug=False)
