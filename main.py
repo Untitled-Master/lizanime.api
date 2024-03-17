@@ -86,7 +86,7 @@ def get_anime_data():
         return jsonify({'message': 'Nothing was found'})
 
 @app.route('/anime_datapro', methods=['GET'])
-def get_anime_data():
+def get_anime_datapro():
     url = 'https://xsaniime.com/'
     response = requests.get(url)
     if response.status_code == 200:
