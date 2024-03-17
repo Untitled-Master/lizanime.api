@@ -30,13 +30,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             const serverButtons = document.createElement('div');
             serverButtons.classList.add('server-buttons');
 
-            episode.urls.forEach((url, index) => {
+            episode.servers.forEach((server, index) => {
                 const serverButton = document.createElement('button');
                 serverButton.classList.add('server-button');
-                serverButton.textContent = `server ${index + 1}`;
+                serverButton.textContent = `Server ${index + 1}`;
                 serverButton.addEventListener('click', () => {
-                    window.open(url['url' + (index + 1)], '_blank');
+                    window.open(server, '_blank');
                 });
+
                 serverButtons.appendChild(serverButton);
             });
 
@@ -46,7 +47,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             episodeCard.appendChild(episodeImg);
             episodeCard.appendChild(episodeInfo);
 
-            // Check episode tag and append to the corresponding section
             if (episode.tag === 'anime') {
                 animeGrid.appendChild(episodeCard);
             } else if (episode.tag === 'movie') {
@@ -55,10 +55,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                 newEpisodesGrid.appendChild(episodeCard);
             }
         });
-
-        loadingContainer.style.display = 'none'; // Hide loading container after data is loaded
     } catch (error) {
         console.error('Error fetching data:', error);
-        loadingContainer.textContent = 'Error fetching data. Please try again later.';
     }
+
+    loadingContainer.style.display = 'none'; // Hide loading container after data is loaded
 });
