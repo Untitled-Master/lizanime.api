@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const loadingContainer = document.getElementById('loading-container');
-    const episodesContainer = document.getElementById('episodes');
+    const newEpisodesGrid = document.getElementById('new-episodes-grid');
+    const animeGrid = document.getElementById('anime-grid');
+    const moviesGrid = document.getElementById('movies-grid');
     loadingContainer.style.display = 'block'; // Show loading container
 
     try {
@@ -44,7 +46,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             episodeCard.appendChild(episodeImg);
             episodeCard.appendChild(episodeInfo);
 
-            episodesContainer.appendChild(episodeCard);
+            // Check episode tag and append to the corresponding section
+            if (episode.tag === 'anime') {
+                animeGrid.appendChild(episodeCard);
+            } else if (episode.tag === 'movie') {
+                moviesGrid.appendChild(episodeCard);
+            } else {
+                newEpisodesGrid.appendChild(episodeCard);
+            }
         });
 
         loadingContainer.style.display = 'none'; // Hide loading container after data is loaded
