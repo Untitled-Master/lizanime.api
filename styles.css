@@ -30,12 +30,12 @@ strong{
     background-position: center;
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    max-width: 50%;
 }
 
 .header-container {
-    max-width: 600px;
+    max-width: 50%;
     margin: 0 auto;
-
     align-items: center;
     justify-content: space-between;
 }
