@@ -1,12 +1,10 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const loadingContainer = document.getElementById('loading-container');
-    const newEpisodesGrid = document.getElementById('new-episodes-grid');
-    const animeGrid = document.getElementById('anime-grid');
-    const moviesGrid = document.getElementById('movies-grid');
+    const episodesContainer = document.getElementById('episodes');
     loadingContainer.style.display = 'block'; // Show loading container
 
     try {
-        const response = await fetch('https://lizanime-api.onrender.com/anime_datapro');
+        const response = await fetch('https://lizanime-api.onrender.com/anime_data');
         const data = await response.json();
 
         data.forEach(episode => {
@@ -30,14 +28,13 @@ document.addEventListener('DOMContentLoaded', async function () {
             const serverButtons = document.createElement('div');
             serverButtons.classList.add('server-buttons');
 
-            episode.servers.forEach((server, index) => {
+            episode.urls.forEach((url, index) => {
                 const serverButton = document.createElement('button');
                 serverButton.classList.add('server-button');
-                serverButton.textContent = `Server ${index + 1}`;
+                serverButton.textContent = `server ${index + 1}`;
                 serverButton.addEventListener('click', () => {
-                    window.open(server, '_blank');
+                    window.open(url['url' + (index + 1)], '_blank');
                 });
-
                 serverButtons.appendChild(serverButton);
             });
 
@@ -47,17 +44,12 @@ document.addEventListener('DOMContentLoaded', async function () {
             episodeCard.appendChild(episodeImg);
             episodeCard.appendChild(episodeInfo);
 
-            if (episode.tag === 'anime') {
-                animeGrid.appendChild(episodeCard);
-            } else if (episode.tag === 'movie') {
-                moviesGrid.appendChild(episodeCard);
-            } else {
-                newEpisodesGrid.appendChild(episodeCard);
-            }
+            episodesContainer.appendChild(episodeCard);
         });
+
+        loadingContainer.style.display = 'none'; // Hide loading container after data is loaded
     } catch (error) {
         console.error('Error fetching data:', error);
+        loadingContainer.textContent = 'Error fetching data. Please try again later.';
     }
-
-    loadingContainer.style.display = 'none'; // Hide loading container after data is loaded
 });
