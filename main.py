@@ -108,7 +108,7 @@ def get_anime_datapro():
             if 'episode' in link:
                 tag = 'episode'
             elif 'movie' in link:
-                tag = 'episode'
+                tag = 'movie'
             else:
                 tag = 'anime'
 
