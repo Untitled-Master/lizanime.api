@@ -158,7 +158,7 @@
 
             const episodeTitle = document.createElement('div');
             episodeTitle.classList.add('episode-title');
-            episodeTitle.innerHTML = `<i class="fas fa-play-circle episode-icon"></i>Episode ${index + 1}: ${episode.title}`;
+            episodeTitle.innerHTML = `<i class="fas fa-play-circle episode-icon"></i>${episode.title}`;
             episodeTitle.addEventListener('click', () => toggleServers(episodeItem));
             episodeItem.appendChild(episodeTitle);
 
