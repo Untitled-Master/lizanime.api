@@ -34,12 +34,13 @@ strong{
 }
 
 .header-container {
-    max-width: 50%;
     margin: 0 auto;
     align-items: center;
     justify-content: space-between;
 }
-
+.gg{
+    max-width: 100%;
+}
 .title {
     font-size: 36px;
     font-weight: bold;
