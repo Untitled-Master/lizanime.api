@@ -10,6 +10,12 @@ body {
     background-color: #282b30; /* Dark background */
     color: #fff; /* Light text color */
 }
+.divg2{
+    width: 80%;
+}
+strong{
+    color: #ffbf00;
+}
 .copy{
     text-align: center;
 }
