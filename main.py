@@ -103,7 +103,6 @@ def get_anime_datapro():
             title = episode_link['title']
             img_url = episode_link.find('img')['data-img']
             year = episode_link.find('span', class_='year').text.strip()
-            episode = episode_link.find('span', class_='episode').text.strip()
 
             # Check if there is an episode link
             if 'episode' in link:
@@ -124,7 +123,6 @@ def get_anime_datapro():
                 'title': title,
                 'url': link,
                 'img_url': img_url,
-                'episode': episode,
                 'year': year,
                 'tag': tag,
                 'urls': episode_servers,
