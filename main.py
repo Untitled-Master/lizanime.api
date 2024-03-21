@@ -21,8 +21,6 @@ def fetch_server_links(link):
 
 @app.route('/movie_data', methods=['GET'])
 def get_movie_data():
-    start_time = time.time()
-
     response = requests.get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -56,12 +54,9 @@ def get_movie_data():
                 }
                 anime_data.append(movie_info)
 
-        end_time = time.time()
-        loading_time = end_time - start_time
 
         response_data = {
             'anime_data': anime_data,
-            'loading_time': loading_time
         }
 
         return jsonify(response_data)
