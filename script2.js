@@ -52,13 +52,12 @@ document.addEventListener('DOMContentLoaded', async function () {
                 noServers.textContent = 'No servers available.';
                 episodeInfo.appendChild(noServers);
             }
-
+            episodeCard.appendChild(episodeTitle);
             episodeInfo.appendChild(episodeGenre);
             episodeInfo.appendChild(episodeYear);
             episodeInfo.appendChild(episodeRating);
 
             episodeCard.appendChild(episodeImg);
-            episodeCard.appendChild(episodeTitle);
             episodeCard.appendChild(episodeInfo);
 
             episodesContainer.appendChild(episodeCard);
