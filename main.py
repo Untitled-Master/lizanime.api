@@ -7,6 +7,68 @@ import psycopg2
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
+url = 'https://www.fushaar.com/'
+
+def fetch_server_links(link):
+    response = requests.get(link)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        servers = soup.find_all('div', class_='jtab')
+        server_links = [server.find('iframe')['data-lazy-src'] if server.find('iframe') else None for server in servers]
+        return server_links
+    else:
+        return []
+
+@app.route('/movie_data', methods=['GET'])
+def get_anime_data():
+    start_time = time.time()
+
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        movies = soup.find_all('article', class_='poster')
+        anime_data = []
+
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future_to_link = {executor.submit(fetch_server_links, movie.find('a')['href']): movie for movie in movies}
+            for future in concurrent.futures.as_completed(future_to_link):
+                movie = future_to_link[future]
+                try:
+                    server_links = future.result()
+                except Exception as exc:
+                    print(f"Error fetching server links for {movie.find('a')['href']}: {exc}")
+                    server_links = []
+
+                title = movie.find('div', class_='info').find('h3').get_text(strip=True)
+                img_url = movie.find('a').find('img')['data-lazy-src']
+                genre = movie.find('div', class_='gerne').get_text(strip=True)
+                year = movie.find('ul', class_='labels').find('li', class_='year').get_text(strip=True)
+                rating = movie.find('div', class_='rate').find('span', class_='greyinfo').get_text(strip=True)
+
+                movie_info = {
+                    'Title': title,
+                    'Link': movie.find('a')['href'],
+                    'Image URL': img_url,
+                    'Genre': genre,
+                    'Year': year,
+                    'Rating': rating,
+                    'Server Links': server_links
+                }
+                anime_data.append(movie_info)
+
+        end_time = time.time()
+        loading_time = end_time - start_time
+
+        response_data = {
+            'anime_data': anime_data,
+            'loading_time': loading_time
+        }
+
+        return jsonify(response_data)
+
+    else:
+        return jsonify({'error': f"Failed to fetch the page. Status code: {response.status_code}"}), 500
+
 # Database URL provided by Render
 db_url = "postgres://untitledmaster:TRpOF79DgGJfadr9MxV0RzLCtQtPIm59@dpg-cnrie1v109ks73fgq4gg-a.oregon-postgres.render.com/lizanime"
 
