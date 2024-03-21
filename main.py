@@ -20,7 +20,7 @@ def fetch_server_links(link):
         return []
 
 @app.route('/movie_data', methods=['GET'])
-def get_anime_data():
+def get_movie_data():
     start_time = time.time()
 
     response = requests.get(url)
