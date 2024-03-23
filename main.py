@@ -161,41 +161,47 @@ def get_favorite_animes():
 @app.route('/anime_episodes1', methods=['GET'])
 def get_anime_episodes():
     anime = request.args.get('anime')
-    if anime:
-        url = f'https://xsaniime.com/anime/{anime}/'
-        response = requests.get(url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-            episodes_div = soup.find('div', id='episodes')
-            anime_data = []
-
-            if episodes_div:
-                episodes_list = episodes_div.find_all('li')
-
-                for episode_li in episodes_list:
-                    episode_url = episode_li.a['href']
-                    episode_name = episode_li.a['title']
-
-                    episode_response = requests.get(episode_url)
-                    if episode_response.status_code == 200:
-                        episode_soup = BeautifulSoup(episode_response.text, 'html.parser')
-                        data_embed_links = episode_soup.find_all(attrs={"data-embed": True})
-                        data_embed = [link['data-embed'] for link in data_embed_links]
-                    else:
-                        data_embed = []
-
-                    anime_data.append({
-                        'title': episode_name,
-                        'urls': data_embed,
-                    })
-
-                return jsonify(anime_data)
-            else:
-                return jsonify({'error': 'No episodes found.'}), 404
-        else:
-            return jsonify({'error': 'Failed to fetch the webpage.'}), 500
-    else:
+    if not anime:
         return jsonify({'error': 'Anime name parameter missing.'}), 400
+
+    url = f'https://xsaniime.com/anime/{anime}/'
+    response = requests.get(url)
+
+    def process_episode(episode_li):
+        episode_url = episode_li.a['href']
+        episode_name = episode_li.a['title']
+
+        episode_response = requests.get(episode_url)
+        if episode_response.status_code == 200:
+            episode_soup = BeautifulSoup(episode_response.text, 'html.parser')
+            data_embed_links = episode_soup.find_all(attrs={"data-embed": True})
+            data_embed = [link['data-embed'] for link in data_embed_links]
+        else:
+            data_embed = []
+
+        return {
+            'title': episode_name,
+            'urls': data_embed,
+        }
+
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        episodes_div = soup.find('div', id='episodes')
+
+        if episodes_div:
+            episodes_list = episodes_div.find_all('li')
+
+            anime_data = []
+            with ThreadPoolExecutor() as executor:
+                # Process each episode in parallel
+                processed_episodes = executor.map(process_episode, episodes_list)
+                anime_data.extend(processed_episodes)
+
+            return jsonify(anime_data)
+        else:
+            return jsonify({'error': 'No episodes found.'}), 404
+    else:
+        return jsonify({'error': 'Failed to fetch the webpage.'}), 500
 
 @app.route('/anime_data', methods=['GET'])
 def get_anime_data():
