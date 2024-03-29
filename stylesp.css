@@ -1,0 +1,134 @@
+/* Reset default styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #282c35; /* Dark background */
+    color: #fff; /* Light text color */
+}
+
+strong {
+    color: #ffbf00;
+}
+
+.header {
+    background-color: #282c35; /* Dark blue header background */
+    padding: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.navigation {
+    margin-left: auto;
+}
+
+.nav-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-list li {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.nav-list li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-list li a:hover {
+    color: #ffbf00; /* Change color on hover */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.profile {
+    display: flex;
+    justify-content: center; /* Center the profile info */
+    align-items: center; /* Align items vertically */
+    flex-direction: column; /* Stack items vertically */
+    margin-top: 30px;
+}
+
+.profile-info {
+    max-width: 600px; /* Limit the width of the profile info */
+    text-align: center; /* Center text */
+    padding: 20px;
+    background-color: #1a1c24; /* Dark background */
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow */
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.bio {
+    color: #ccc;
+    line-height: 1.5;
+}
+
+.favorites {
+    background-color: #1a1c24; /* Dark background for favorites section */
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px; /* Add margin to separate from profile info */
+    max-width: 600px;
+    margin: 0 auto; /* Center the favorites section */
+}
+
+.add-anime {
+    margin-bottom: 20px;
+}
+
+.add-anime input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-anime button {
+    background-color: #ebb105; /* Main yellow color */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-anime button:hover {
+    background-color: #f0c11e; /* Lighter shade on hover */
+}
