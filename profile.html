@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LizAnime Profile</title>
+<link rel="stylesheet" href="stylesp.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+WNswyTADZteCt6R3cyz7fFmkgc7JqDDG1bkr2cN4Pv7a7U" crossorigin="anonymous">
+</head>
+<body>
+  <header class="header">
+    <div class="header-container">
+      <h1 class="title">LizAnime</h1>
+      <nav class="navigation">
+        <ul class="nav-list">
+          <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="anime.html"><i class="fas fa-user"></i> Anime</a></li>
+          <li><a href="movies.html"><i class="fas fa-heart"></i> Movies</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <section class="profile">
+      <div class="profile-info">
+        <h2><i class="fas fa-user"></i> <strong>Untitled-Master</strong></h2>
+        <img src="https://avatars.githubusercontent.com/u/128633214?v=4" alt="Profile Picture" class="profile-img">
+        <p class="bio">
+          Idk what to write here, you know... <strong>LizAnime is good</strong>
+        </p>
+      </div>
+    </section>
+    <br>
+    <br>
+    <br>
+    <br>
+    <section class="favorites">
+      <h2><i class="fas fa-star"></i> Favorites</h2>
+      <div class="add-anime">
+          <input type="text" id="animeName" placeholder="Enter anime name">
+          <input type="number" id="animeRating" placeholder="Enter rating (1-10)">
+          <button onclick="addFavoriteAnime()"><i class="fas fa-plus"></i> Add Favorite Anime</button>
+      </div>
+      <div id="favoriteAnimes" class="anime-list"></div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
