@@ -21,7 +21,7 @@ function addFavoriteAnime() {
     if (response.ok) {
       document.getElementById("animeName").value = '';
       document.getElementById("animeRating").value = '';
-      fetchFavoriteAnimes();
+      fetchFavoriteAnimes(); // Corrected function name
     } else {
       throw new Error('Failed to add favorite anime.');
     }
@@ -32,7 +32,7 @@ function addFavoriteAnime() {
   });
 }
 
-function fetchFavori1teAnimes() {
+function fetchFavoriteAnimes() { // Corrected function name
   fetch(`${base_url}/get_animes`)
   .then(response => {
     if (!response.ok) {
