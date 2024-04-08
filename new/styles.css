@@ -1,4 +1,3 @@
-/* Reset default styles */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,19 +5,58 @@
 }
 
 body {
-    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: #282b30;
-    color: #fff;
-}
-
-.copy {
-    text-align: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #282b30; /* Dark background */
+    color: #fff; /* Light text color */
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 100%;
     padding: 20px;
+}
+
+.header {
+    background-color: #1A76D2; /* Dark blue header */
+    padding: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.navigation {
+    display: flex;
+}
+
+.nav-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-list li {
+    margin-right: 10px;
+}
+
+.nav-list li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-list li a:hover {
+    color: #ffbf00; /* Change color on hover */
 }
 
 .loading-container {
@@ -28,7 +66,7 @@ body {
 
 .loading-spinner {
     border: 4px solid rgba(255, 255, 255, 0.1);
-    border-top: 4px solid #ebb105;
+    border-top: 4px solid #ebb105; /* Main blue color */
     border-radius: 50%;
     width: 50px;
     height: 50px;
@@ -43,115 +81,36 @@ body {
 
 .loading-text {
     font-size: 18px;
-    color: #ccc;
-}
-
-.header {
-    background-size: cover;
-    background-position: center;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.title {
-    font-size: 36px;
-    font-weight: bold;
-    margin: 0;
-    color: #fff;
-}
-
-.navigation {
-    display: flex;
-}
-
-.nav-list {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-}
-
-.nav-list li {
-    margin-right: 20px;
-}
-
-.nav-list li a {
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-.nav-list li a:hover {
-    color: #ffbf00;
+    color: #ccc; /* Light gray text color */
 }
 
 .episodes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
     grid-gap: 20px;
 }
 
-/* Additional styles for episode cards */
-.episode-card {
-    position: relative;
-    background-color: #333;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-}
+/* Media query for smaller screens */
+@media only screen and (max-width: 768px) {
+    .nav-list li {
+        margin-right: 5px;
+    }
 
-.episode-card:hover {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
+    .title {
+        font-size: 20px;
+    }
 
-.episode-card img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-}
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+    }
 
-.episode-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
-    padding: 10px;
-    border-radius: 0 0 10px 10px;
-}
+    .loading-text {
+        font-size: 16px;
+    }
 
-.episode-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #fff;
-}
-
-.server-button {
-    background-color: #ebb105;
-    color: #fff;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.server-button:hover {
-    background-color: #424549;
-}
-
-.fa {
-    margin-right: 5px;
+    .episodes-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Adjust grid for smaller screens */
+        grid-gap: 15px;
+    }
 }
