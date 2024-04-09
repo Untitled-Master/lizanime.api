@@ -297,7 +297,7 @@ def get_anime_datapro():
     else:
         return jsonify({'message': 'Nothing was found'})
 
-@app.route('/anime_datavi^p', methods=['GET'])
+@app.route('/anime_datavip', methods=['GET'])
 def get_anime_datavip():
     url = 'https://xsaniime.com/'
     response = requests.get(url)
