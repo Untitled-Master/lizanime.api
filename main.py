@@ -297,7 +297,53 @@ def get_anime_datapro():
     else:
         return jsonify({'message': 'Nothing was found'})
 
+@app.route('/anime_datavi^p', methods=['GET'])
+def get_anime_datavip():
+    url = 'https://xsaniime.com/'
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        episode_divs = soup.find_all('div', class_='block-post')
+        anime_data = []
+        
+        def process_episode(episode_div):
+            episode_link = episode_div.find('a')
+            link = episode_link['href']
+            title = episode_link['title']
+            img_url = episode_link.find('img')['data-img']
+            year = episode_link.find('span', class_='year').text.strip()
 
+            if 'episode' in link:
+                tag = 'episode'
+            elif 'movie' in link:
+                tag = 'movie'
+            else:
+                tag = 'anime'
+
+            response2 = requests.get(link)
+            soup2 = BeautifulSoup(response2.text, 'html.parser')
+            episode_urls = soup2.find_all('div', class_='servList')
+            episode_servers = []
+            for episode_url in episode_urls:
+                data_embed_links = episode_url.find_all(attrs={"data-embed": True})
+                for i, linky in enumerate(data_embed_links, 1):
+                    urll = linky['data-embed']
+                    episode_servers.append({f'url{i}': urll})
+            anime_data.append({
+                'title': title,
+                'url': link,
+                'img_url': img_url,
+                'year': year,
+                'tag': tag,
+                'urls': episode_servers,
+            })
+        
+        with ThreadPoolExecutor() as executor:
+            executor.map(process_episode, episode_divs)
+        
+        return jsonify(anime_data)
+    else:
+        return jsonify({'message': 'Nothing was found'})
 if __name__ == '__main__':
     create_table()  # Create the 'favorite_animes' table if it doesn't exist
     app.run(host='0.0.0.0', port=5000, debug=False)
