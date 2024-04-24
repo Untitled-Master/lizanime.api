@@ -249,6 +249,39 @@ def get_anime_data():
     else:
         return jsonify({'message': 'Nothing was found'})
 
+@app.route('/scrape', methods=['GET'])
+def scrape_website():
+    search_query = request.args.get('search', '')
+    url = f"https://www.hdith.com/?s={search_query}"
+
+    # Send a GET request to the URL
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        # Parse the HTML content of the page
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # Find all <div> elements with class 'hbox faq-item active degree1'
+        valids = soup.find_all('div', class_='hbox faq-item active degree1')
+        weaks = soup.find_all('div', class_='hbox faq-item active degree2')
+        notValid = soup.find_all('div', class_='hbox faq-item active degree3')
+
+        # Format the data
+        valid_data = [valid.text.strip() for valid in valids]
+        weak_data = [weak.text.strip() for weak in weaks]
+        not_valid_data = [not_valid.text.strip() for not_valid in notValid]
+
+        # Create the response JSON
+        response_data = {
+            "Valid": valid_data,
+            "Weak": weak_data,
+            "Not Valid": not_valid_data
+        }
+
+        return jsonify(response_data)
+    else:
+        return jsonify({"error": "Failed to retrieve the webpage."})
+
 @app.route('/anime_datapro', methods=['GET'])
 def get_anime_datapro():
     url = 'https://xsaniime.com/'
