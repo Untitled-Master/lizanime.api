@@ -271,7 +271,7 @@ def scrape_website():
         weak_data = [weak.text.strip() for weak in weaks]
         not_valid_data = [not_valid.text.strip() for not_valid in notValid]
         # Create the response JSON
-        valid_data_formatted = [valid.replace('الراوي', 'الراوي\n') for valid in valid_data]
+        valid_data_formatted = [valid.replace('الراوي\n', 'الراوي') for valid in valid_data]
         response_data = {
             "Valid": valid_data_formatted,
             "Weak": weak_data,
