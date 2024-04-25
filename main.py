@@ -270,13 +270,14 @@ def scrape_website():
         valid_data = [valid.text.strip() for valid in valids]
         weak_data = [weak.text.strip() for weak in weaks]
         not_valid_data = [not_valid.text.strip() for not_valid in notValid]
-
         # Create the response JSON
+        valid_data_formatted = [valid.replace('الراوي', 'الراوي\n') for valid in valid_data]
         response_data = {
-            "Valid": valid_data,
+            "Valid": valid_data_formatted,
             "Weak": weak_data,
             "Not Valid": not_valid_data
         }
+        
 
         return jsonify(response_data)
     else:
