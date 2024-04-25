@@ -294,8 +294,18 @@ def scrape_website():
         not_valid_data = [not_valid.text.strip() for not_valid in not_valid]
         not_valid_data_formatted = []
         for not_valid in not_valid_data:
-            # Format as needed
-            not_valid_data_formatted.append(not_valid)
+            hadith_parts = not_valid.split('الراوي')
+            if len(hadith_parts) >= 2:
+                hadith_text = hadith_parts[0].strip()
+                hadith_info = hadith_parts[1].strip().split()
+                narrator = hadith_info[0]
+                transmitter = hadith_info[2]
+                source = hadith_info[4]
+                part_page = hadith_info[6]
+                authenticity = hadith_info[-1]
+                
+                formatted_hadith = f"{hadith_text}\nالراوي:{narrator}\nالمحدث:{transmitter}\nالمصدر:{source}\nالجزء أو الصفحة:{part_page}\nحكم المحدث:{authenticity}"
+                not_valid_data_formatted.append(formatted_hadith)
 
         # Create the response JSON
         response_data = {
