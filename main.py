@@ -280,7 +280,7 @@ def scrape_website():
                 part_page = hadith_info[6]
                 authenticity = hadith_info[-1]
                 
-                formatted_hadith = f"{hadith_text}\nالراوي:{narrator}\nالمحدث:{transmitter}\nالمصدر:{source}\nالجزء أو الصفحة:{part_page}\nحكم المحدث:{authenticity}"
+                formatted_hadith = f"{hadith_text}\n👳🏻‍♂️الراوي{narrator}\n🗣️المحدث{transmitter}\n📚المصدر{source}\n📄الجزء أو الصفحة{part_page}\n🔍حكم المحدث{authenticity}"
                 valid_data_formatted.append(formatted_hadith)
 
         # Format the data for weak hadiths
@@ -288,6 +288,7 @@ def scrape_website():
         weak_data_formatted = []
         for weak in weak_data:
             # Format as needed
+            
             weak_data_formatted.append(weak)
 
         # Format the data for not valid hadiths
@@ -304,7 +305,7 @@ def scrape_website():
                 part_page = hadith_info[6]
                 authenticity = hadith_info[-1]
                 
-                formatted_hadith = f"{hadith_text}\nالراوي:{narrator}\nالمحدث:{transmitter}\nالمصدر:{source}\nالجزء أو الصفحة:{part_page}\nحكم المحدث:{authenticity}"
+                formatted_hadith = f"{hadith_text}\n👳🏻‍♂️الراوي{narrator}\n🗣️المحدث{transmitter}\n📚المصدر{source}\n📄الجزء أو الصفحة{part_page}\n🔍حكم المحدث{authenticity}\n"
                 not_valid_data_formatted.append(formatted_hadith)
 
         # Create the response JSON
