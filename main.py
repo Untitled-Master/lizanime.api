@@ -264,23 +264,50 @@ def scrape_website():
         # Find all <div> elements with class 'hbox faq-item active degree1'
         valids = soup.find_all('div', class_='hbox faq-item active degree1')
         weaks = soup.find_all('div', class_='hbox faq-item active degree2')
-        notValid = soup.find_all('div', class_='hbox faq-item active degree3')
+        not_valid = soup.find_all('div', class_='hbox faq-item active degree3')
 
-        # Format the data
+        # Format the data for valid hadiths
         valid_data = [valid.text.strip() for valid in valids]
+        valid_data_formatted = []
+        for valid in valid_data:
+            hadith_parts = valid.split('الراوي')
+            if len(hadith_parts) >= 2:
+                hadith_text = hadith_parts[0].strip()
+                hadith_info = hadith_parts[1].strip().split()
+                narrator = hadith_info[0]
+                transmitter = hadith_info[2]
+                source = hadith_info[4]
+                part_page = hadith_info[6]
+                authenticity = hadith_info[-1]
+                
+                formatted_hadith = f"{hadith_text}\nالراوي:{narrator}\nالمحدث:{transmitter}\nالمصدر:{source}\nالجزء أو الصفحة:{part_page}\nحكم المحدث:{authenticity}"
+                valid_data_formatted.append(formatted_hadith)
+
+        # Format the data for weak hadiths
         weak_data = [weak.text.strip() for weak in weaks]
-        not_valid_data = [not_valid.text.strip() for not_valid in notValid]
-        # Create the response JS
+        weak_data_formatted = []
+        for weak in weak_data:
+            # Format as needed
+            weak_data_formatted.append(weak)
+
+        # Format the data for not valid hadiths
+        not_valid_data = [not_valid.text.strip() for not_valid in not_valid]
+        not_valid_data_formatted = []
+        for not_valid in not_valid_data:
+            # Format as needed
+            not_valid_data_formatted.append(not_valid)
+
+        # Create the response JSON
         response_data = {
-            "Valid": valid_data,
-            "Weak": weak_data,
-            "Not Valid": not_valid_data
+            "Valid": valid_data_formatted,
+            "Weak": weak_data_formatted,
+            "Not Valid": not_valid_data_formatted
         }
-        
 
         return jsonify(response_data)
     else:
         return jsonify({"error": "Failed to retrieve the webpage."})
+
 
 @app.route('/anime_datapro', methods=['GET'])
 def get_anime_datapro():
