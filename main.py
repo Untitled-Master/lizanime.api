@@ -264,12 +264,12 @@ def scrape_website():
         # Find all <div> elements with class 'hbox faq-item active degree1'
         valids = soup.find_all('div', class_='hbox faq-item active degree1')
         weaks = soup.find_all('div', class_='hbox faq-item active degree2')
-        not_valid = soup.find_all('div', class_='hbox faq-item active degree3')
+        notValid = soup.find_all('div', class_='hbox faq-item active degree3')
 
-        # Format the data with new lines for items containing "الراوي"
-        valid_data = '\n'.join(valid.text.strip() for valid in valids if 'الراوي' in valid.text)
-        weak_data = '\n'.join(weak.text.strip() for weak in weaks if 'الراوي' in weak.text)
-        not_valid_data = '\n'.join(not_valid.text.strip() for not_valid in not_valid if 'الراوي' in not_valid.text)
+        # Format the data
+        valid_data = [valid.text.strip() for valid in valids]
+        weak_data = [weak.text.strip() for weak in weaks]
+        not_valid_data = [not_valid.text.strip() for not_valid in notValid]
 
         # Create the response JSON
         response_data = {
