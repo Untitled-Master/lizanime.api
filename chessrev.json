@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "username": "untitledmaster",
+      "password": "untitledmaster",
+      "status": "ok"
+    },
+    {
+      "username": "untitledmaster2",
+      "password": "untitledmaster2",
+      "status": "no"
+    }
+  ]
+}
