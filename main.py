@@ -150,7 +150,7 @@ def list_files():
     except GithubException as e:
         return jsonify({"error": f"GitHub exception: {e}"}), 500
 
-@app.route('/delete/<path:file_name>', methods=['DELETE'])
+@app.route('/delete/<path:file_name>', methods=['GET'])
 def delete_files(file_name):
     try:
         contents = repo.get_contents(file_name, ref=BRANCH)
