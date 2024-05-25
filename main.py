@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import psycopg2
 import concurrent.futures
 from concurrent.futures import ThreadPoolExecutor
+from github import Github, GithubException
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -95,6 +96,59 @@ def create_table():
 
     except psycopg2.Error as e:
         print("Error creating table:", e)
+
+
+
+# GitHub configuration
+GITHUB_TOKEN = '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'
+REPO_NAME = 'Untitled-Master/Data'
+BRANCH = 'main'  # Change this to the branch where you want to commit the changes
+
+# Authenticate to GitHub
+g = Github(GITHUB_TOKEN)
+repo = g.get_repo(REPO_NAME)
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    try:
+        # Read the file content
+        content = file.read()
+        path_in_repo = file.filename
+
+        try:
+            # Check if the file exists in the repo
+            contents = repo.get_contents(path_in_repo, ref=BRANCH)
+            repo.update_file(contents.path, f"Update {file.filename} via API", content, contents.sha, branch=BRANCH)
+            return jsonify({"message": f"Updated file {path_in_repo} in the repository."}), 200
+        except GithubException as e:
+            if e.status == 404:
+                # File does not exist, create it
+                repo.create_file(path_in_repo, f"Create {file.filename} via API", content, branch=BRANCH)
+                return jsonify({"message": f"Created file {path_in_repo} in the repository."}), 201
+            else:
+                raise
+
+    except GithubException as e:
+        return jsonify({"error": f"GitHub exception: {e}"}), 500
+    except Exception as e:
+        return jsonify({"error": f"An error occurred: {e}"}), 500
+
+@app.route('/files', methods=['GET'])
+def list_files():
+    try:
+        files = repo.get_contents('')
+        file_list = [file.path for file in files]
+        return jsonify({"files": file_list}), 200
+    except GithubException as e:
+        return jsonify({"error": f"GitHub exception: {e}"}), 500
 
 @app.route('/add_anime', methods=['POST'])
 def add_favorite_anime():
