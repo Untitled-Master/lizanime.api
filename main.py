@@ -150,6 +150,23 @@ def list_files():
     except GithubException as e:
         return jsonify({"error": f"GitHub exception: {e}"}), 500
 
+@app.route('/delete', methods=['POST'])
+def delete_file():
+    file_name = request.json.get('file_name')
+
+    if not file_name:
+        return jsonify({"error": "File name not provided"}), 400
+
+    try:
+        contents = repo.get_contents(file_name, ref=BRANCH)
+        repo.delete_file(contents.path, f"Delete {file_name} via API", contents.sha, branch=BRANCH)
+        return jsonify({"message": f"Deleted file {file_name} from the repository."}), 200
+    except GithubException as e:
+        if e.status == 404:
+            return jsonify({"error": f"File {file_name} not found in the repository"}), 404
+        else:
+            return jsonify({"error": f"GitHub exception: {e}"}), 500
+
 @app.route('/add_anime', methods=['POST'])
 def add_favorite_anime():
     try:
