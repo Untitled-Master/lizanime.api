@@ -58,7 +58,8 @@ def get_svg_content(username):
   svg_content = svg_content.replace(playtime_placeholder, playtime)  # Update once you implement user data retrieval
   return svg_content
 
-@app.route("/user/<username>")
+@app.route("/user")
+username = "dzdz"
 def user_svg(username):
   svg_data = get_svg_content(username)
   response = make_response(svg_data)
