@@ -381,38 +381,47 @@ def scrape2():
     results = scrape_website(search_query)
     return jsonify(results)
 
+from flask import Flask, request, jsonify
+import requests
+from bs4 import BeautifulSoup
+
+app = Flask(__name__)
+
 @app.route('/s', methods=['GET'])
-def s():
-    search_query = request.args.get('search')
+def scrape_website():
+    search_query = request.args.get('query')
     if not search_query:
-        return jsonify({"error": "Search query is required."}), 400
-    
+        return jsonify({"error": "No search query provided."}), 400
+
     url = f"https://www.hdith.com/?s={search_query}"
-    
+
     try:
         response = requests.get(url)
         response.raise_for_status()
         html_content = response.text
     except requests.RequestException as e:
-        print(f"Request failed: {e}")
-        return jsonify({"error": "Failed to retrieve the webpage."}), 500
-    
-    soup = BeautifulSoup(html_content, 'html.parser')
-    
-    valid_elements = soup.find_all('div', class_='hbox faq-item active degree1')
-    weak_elements = soup.find_all('div', class_='hbox faq-item active degree2')
-    not_valid_elements = soup.find_all('div', class_='hbox faq-item active degree3')
-    
-    valid_data = [element.text.strip() for element in valid_elements]
-    weak_data = [element.text.strip() for element in weak_elements]
-    not_valid_data = [element.text.strip() for element in not_valid_elements]
-    
+        return jsonify({"error": f"Request failed: {e}"}), 500
+
+    soup = BeautifulSoup(html_content, "html.parser")
+
+    def extract_data(class_name):
+        elements = soup.find_all("div", class_=class_name)
+        return [element.text.strip() for element in elements]
+
+    valid_data = extract_data("hbox faq-item active degree1")
+    weak_data = extract_data("hbox faq-item active degree2")
+    not_valid_data = extract_data("hbox faq-item active degree3")
+
     response_data = {
         "Valid": valid_data,
         "Weak": weak_data,
-        "Not Valid": not_valid_data
+        "Not Valid": not_valid_data,
     }
-    
+
+    # Format each item to add a new line before "الراوي"
+    for category, data in response_data.items():
+        response_data[category] = [item.replace("الراوي", "\nالراوي") for item in data]
+
     return jsonify(response_data)
 @app.route('/scrape', methods=['GET'])
 def scrape_website():
