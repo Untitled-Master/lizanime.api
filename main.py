@@ -388,7 +388,7 @@ from bs4 import BeautifulSoup
 app = Flask(__name__)
 
 @app.route('/s', methods=['GET'])
-def scrape_website():
+def scrape_website2():
     search_query = request.args.get('query')
     if not search_query:
         return jsonify({"error": "No search query provided."}), 400
