@@ -390,6 +390,52 @@ def get_anime_data():
     else:
         return jsonify({'message': 'Nothing was found'})
 
+def fetch_webpage(url):
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.text
+    except requests.RequestException as e:
+        print(f"Request failed: {e}")
+        return None
+
+def parse_html(html):
+    return BeautifulSoup(html, 'html.parser')
+
+def extract_data(soup, class_name):
+    elements = soup.find_all('div', class_=class_name)
+    return [element.text.strip() for element in elements]
+
+def scrape_website(search_query):
+    url = f"https://www.hdith.com/?s={search_query}"
+
+    html_content = fetch_webpage(url)
+    if html_content:
+        soup = parse_html(html_content)
+        
+        valid_data = extract_data(soup, 'hbox faq-item active degree1')
+        weak_data = extract_data(soup, 'hbox faq-item active degree2')
+        not_valid_data = extract_data(soup, 'hbox faq-item active degree3')
+        
+        response_data = {
+            "Valid": valid_data,
+            "Weak": weak_data,
+            "Not Valid": not_valid_data
+        }
+        return response_data
+    else:
+        return {"error": "Failed to retrieve the webpage."}
+
+@app.route('/scrape2', methods=['GET'])
+def scrape2():
+    search_query = request.args.get('search')
+    if not search_query:
+        return jsonify({"error": "Search query is required."}), 400
+    
+    results = scrape_website(search_query)
+    return jsonify(results)
+
+
 @app.route('/scrape', methods=['GET'])
 def scrape_website():
     search_query = request.args.get('search', '')
