@@ -11,60 +11,6 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 
-username_placeholder = "USERNAME"  # Replace with actual placeholder text
-rating_placeholder = "RATING"  # Replace with actual placeholder text
-playtime_placeholder = "PLAYTIME HOURS"  # Replace with actual placeholder text
-
-def get_svg_content(username):
-  # Simulate fetching user data (replace with your actual logic)
-  ratings = {"rapid": 1500, "blitz": 1600, "bullet": 1700}
-  playtime = 100
-
-  svg_content = f"""
-<svg width="800" height="400">
-  <rect x="0" y="0" width="800" height="400" fill="#0a0a0a" />
-
-  <g transform="translate(50, 50)">
-    <circle cx="50" cy="50" r="50" fill="#f5f5f5" />
-    <text x="50" y="120" font-size="22" fill="#f5f5f5">{username}</text>
-
-    <circle cx="100" cy="150" r="5" fill="#4a4a4a" /> 
-    <text x="110" y="155" font-size="12" fill="#f5f5f5">Offline</text>
-  </g>
-
-  <g transform="translate(450, 50)">
-    <g transform="translate(0, 0)">
-      <text x="0" y="20" font-size="18" fill="#f5f5f5">Rapid:</text>
-      <text x="70" y="20" font-size="18" fill="#f5f5f5">{ratings['rapid']}</text>
-      <path d="M20 5 L25 10 L15 10 Z" fill="#f5f5f5" transform="translate(50, 0)" /> </g>
-    <g transform="translate(0, 50)">
-      <text x="0" y="20" font-size="18" fill="#f5f5f5">Blitz:</text>
-      <text x="60" y="20" font-size="18" fill="#f5f5f5">{ratings['blitz']}</text>
-      <path d="M10 5 L15 10 L5 10 Z" fill="#f5f5f5" transform="translate(40, 0)" /> </g>
-    <g transform="translate(0, 100)">
-      <text x="0" y="20" font-size="18" fill="#f5f5f5">Bullet:</text>
-      <text x="65" y="20" font-size="18" fill="#f5f5f5">{ratings['bullet']}</text>
-      <path d="M20 5 L15 15 L25 15 Z" fill="#f5f5f5" transform="translate(40, 0)" /> </g>
-    <g transform="translate(0, 150)">
-      <text x="0" y="20" font-size="18" fill="#f5f5f5">Playtime:</text>
-      <text x="100" y="20" font-size="18" fill="#f5f5f5">{playtime}</text>
-    </g>
-  </g>
-</svg>
-"""
-  # Replace placeholders with actual values
-  svg_content = svg_content.replace(username_placeholder, username)
-  svg_content = svg_content.replace(rating_placeholder, rating_placeholder)  # Update once you implement user data retrieval
-  svg_content = svg_content.replace(playtime_placeholder, playtime)  # Update once you implement user data retrieval
-  return svg_content
-
-@app.route("/user")
-username = "dzdz"
-def user_svg(username):
-  svg_data = get_svg_content(username)
-  response = make_response(svg_data)
-  response.headers['Content-Type'] = 'image/svg+
-
 
 url = 'https://www.fushaar.com/'
 
