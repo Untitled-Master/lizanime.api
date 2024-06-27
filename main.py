@@ -420,7 +420,7 @@ def scrape_website2():
 
     # Format each item to add a new line before "الراوي"
     for category, data in response_data.items():
-        response_data[category] = [item.replace("الراوي", "\nالراوي") for item in data]
+        response_data[category] = [item.replace("الراوي", "\n● الراوي ") for item in data]
 
     return jsonify(response_data)
 @app.route('/scrape', methods=['GET'])
