@@ -417,13 +417,25 @@ def scrape_website2():
         "Weak": weak_data,
         "Not Valid": not_valid_data,
     }
-
-    # Format each item to add a new line before specified keywords
-    keywords = ["الراوي", "المحدث", "المصدر", "الجزء أو الصفحة", "حكم المحدث"]
-    
+    # Format each item to add a new line before "الراوي"
     for category, data in response_data.items():
-        for keyword in keywords:
-            response_data[category] = [item.replace(keyword, f"\n● {keyword} ") for item in data]
+        response_data[category] = [item.replace("الراوي", "\n● الراوي ") for item in data]
+    
+    # Format each item to add a new line before "المحدث"
+    for category, data in response_data.items():
+        response_data[category] = [item.replace("المحدث", "\n● المحدث ") for item in data]
+    
+    # Format each item to add a new line before "المصدر"
+    for category, data in response_data.items():
+        response_data[category] = [item.replace("المصدر", "\n● المصدر ") for item in data]
+    
+    # Format each item to add a new line before "الجزء أو الصفحة"
+    for category, data in response_data.items():
+        response_data[category] = [item.replace("الجزء أو الصفحة", "\n● الجزء أو الصفحة ") for item in data]
+    
+    # Format each item to add a new line before "حكم المحدث"
+    for category, data in response_data.items():
+        response_data[category] = [item.replace("حكم المحدث", "\n● حكم المحدث ") for item in data]
     return jsonify(response_data)
 @app.route('/scrape', methods=['GET'])
 def scrape_website():
