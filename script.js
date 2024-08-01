@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     loadingContainer.style.display = 'block'; // Show loading container
   
     try {
-      const response = await fetch('https://lizanime-api.onrender.com/anime_datavip');
+      const response = await fetch('https://api-mait.onrender.com/anime_datavip');
       const data = await response.json();
   
       if (data.length === 0) {
