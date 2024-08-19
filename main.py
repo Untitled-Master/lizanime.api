@@ -520,6 +520,7 @@ def get_anime_datapro():
         return jsonify({'message': 'Nothing was found'})
 
 @app.route('/anime_datavip', methods=['GET'])
+@cross_origin() 
 def get_anime_datavip():
     url = 'https://xsaniime.com/'
     response = requests.get(url)
