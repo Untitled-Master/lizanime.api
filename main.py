@@ -246,6 +246,7 @@ def get_favorite_animes():
         return jsonify({'error': 'Error connecting to the database.'}), 500
 
 @app.route('/anime_episodes1', methods=['GET'])
+@cross_origin()
 def get_anime_episodes():
     anime = request.args.get('anime')
     if not anime:
