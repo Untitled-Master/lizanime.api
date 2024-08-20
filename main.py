@@ -15,6 +15,7 @@ CORS(app)  # Enable CORS for all routes
 url = 'https://www.fushaar.com/'
 
 @app.route('/epscrape', methods=['POST'])
+@cross_origin()
 def scrape():
     data = request.json
     url = data.get('url')
